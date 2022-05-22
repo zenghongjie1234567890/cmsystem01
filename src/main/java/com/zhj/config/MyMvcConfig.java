@@ -12,7 +12,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 映射图片保存地址
         registry.addResourceHandler("/teacher_picture/**" , "/stu_picture/**")
-                .addResourceLocations("file:E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\teacher_picture\\",
-                        "file:E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\stu_picture\\");
+                .addResourceLocations("file:\\cmsystem\\src\\main\\resources\\static\\teacher_picture\\",
+                        "file:competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\stu_picture\\");
     }
 }
