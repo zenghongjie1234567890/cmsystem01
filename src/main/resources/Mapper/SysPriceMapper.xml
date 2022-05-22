@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.SysPriceMapper">
+
+    <select id="getCompName" resultType="String">
+        select comp_name
+        from sys_team,sys_competition
+        where
+            comp_id = #{compid,jdbcType=NUMERIC}
+            and
+            team_compid = comp_id
+            and
+            team_id=    #{teamid,jdbcType=NUMERIC}
+    </select>
+
+    <select id="getPrice" resultType="com.zhj.entity.SysTeam">
+        select team_id,team_name,team_works,team_teaid,team_grade,team_price
+        from sys_team
+        where
+            team_compid = #{compid,jdbcType=NUMERIC} and team_price!='未得奖'
+        order by team_grade desc
+    </select>
+
+</mapper>

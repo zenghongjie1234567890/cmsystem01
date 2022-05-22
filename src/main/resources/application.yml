@@ -1,0 +1,33 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8055
+  tomcat:
+    # 上传文件最大吞吐量
+    max-swallow-size: 100MB
+# 连接数据库需要的配置
+spring:
+  datasource:
+    username: root
+    password: zhj123
+    url: jdbc:mysql://localhost:3306/competition_management_system?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+        # 设置单个上传文件的最大字节数
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+mybatis-plus:
+  configuration:
+    # 加入mybatis-plus日志功能
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhj.mapper.SysTeacherMapper">
+
+    <select id="selectTeacherName" resultType="com.zhj.entity.SysTeacher">
+        select teacher_name,teacher_id
+        from sys_teacher
+    </select>
+</mapper>
