@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-04-09
  */
 public interface ISysStuService extends IService<SysStu> {
-
+    void put(Object a, Object b);
 }

@@ -1,6 +1,7 @@
 package com.zhj.service.impl;
 
 import com.zhj.entity.SysPrice;
+import com.zhj.entity.SysTeam;
 import com.zhj.mapper.SysPriceMapper;
 import com.zhj.service.ISysPriceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,8 +31,8 @@ public class SysPriceServiceImpl extends ServiceImpl<SysPriceMapper, SysPrice> i
     }
 
     @Override
-    public List<System> getPrice(Integer compid) {
-        List<System> price = sysPriceMapper.getPrice(compid);
+    public List<SysTeam> getPrice(Integer compid) {
+        List<SysTeam> price = sysPriceMapper.getPrice(compid);
         return price;
     }
 

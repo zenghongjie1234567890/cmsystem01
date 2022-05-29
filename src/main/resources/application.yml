@@ -21,10 +21,26 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  redis:
+    database: 1  # redis数据库索引 (默认为0)
+    port: 6379
+    password: 2020827zhjazyp
+    host: 47.107.229.21
+
+  resources:
+    static-locations: classpath:static/,file:static/
+
 mybatis-plus:
   configuration:
     # 加入mybatis-plus日志功能
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: true
+
+mybatis: #指定Mybatis的Mapper文件
+  mapper-locations: classpath:com/zhj/mapper/*.xml
+  configuration:
+    multiple-result-sets-enabled: true
+
 
 
 

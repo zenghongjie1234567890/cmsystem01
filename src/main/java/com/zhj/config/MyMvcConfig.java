@@ -11,8 +11,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 映射图片保存地址
-        registry.addResourceHandler("/teacher_picture/**" , "/stu_picture/**")
-                .addResourceLocations("file:\\cmsystem\\src\\main\\resources\\static\\teacher_picture\\",
-                        "file:competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\stu_picture\\");
+        registry.addResourceHandler("/www/wwwroot/static/teacher_picture/**" , "/www/wwwroot/static/teacher_picture/**")
+                .addResourceLocations("file:/www/wwwroot/static/teacher_picture/",
+                        "file:/www/wwwroot/static/stu_picture/");
     }
 }

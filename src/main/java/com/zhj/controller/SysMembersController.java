@@ -108,7 +108,7 @@ public class SysMembersController {
         for (SysMembers members: list1
         ) {
             SysTeam one = teamService.getOne(new QueryWrapper<SysTeam>().eq("team_id", members.getMemberTearmid()));
-            if (one!=null){
+            if (one!=null && !one.getTeamPrice().equals("未得奖")){
                 SysCompetition competition = competitionService.getById(one.getTeamCompid());
                 one.setTeamFname(competition.getCompName());
                 if (members.getMemberIsleader()){

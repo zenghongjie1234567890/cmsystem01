@@ -2,6 +2,7 @@ package com.zhj.service;
 
 import com.zhj.entity.SysPrice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhj.entity.SysTeam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface ISysPriceService extends IService<SysPrice> {
     String getCompName( Integer compid,  Integer front);
-    List<System> getPrice(Integer compid);
+    List<SysTeam> getPrice(Integer compid);
 
 }

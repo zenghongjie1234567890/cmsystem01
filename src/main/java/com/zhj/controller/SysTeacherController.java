@@ -11,6 +11,7 @@ import com.zhj.entity.*;
 import com.zhj.service.ISysTeacherService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -43,10 +44,19 @@ public class SysTeacherController {
     @PostMapping("savePicture")
     // 图片参数名一定要和前端的一样 @RequestParam("photo")该注解可以用别名，解决前后端命名参数名字不一样
     public String saveEmp(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        if(!path.exists()) {
+            path = new File("");
+        }
+        File upload = new File(path.getAbsolutePath(),"static/teacher_picture/");
+        if(!upload.exists()) {
+            upload.mkdirs();
+        }
+        String parent= upload.getPath();
         // 头像保存: 保存客户端上传的图像到服务端
         String uuid = IdUtil.fastSimpleUUID();
         String newFileName = uuid + "." + FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(new File("E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\teacher_picture", newFileName));
+        multipartFile.transferTo(new File(parent, newFileName));
         return "/teacher_picture/"+newFileName;
     }
 

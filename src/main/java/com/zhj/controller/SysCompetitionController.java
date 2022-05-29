@@ -97,9 +97,9 @@ public class SysCompetitionController {
         String type = FileUtil.extName(filename);
         // 定义一个文件唯一的标识码
         String uuid = IdUtil.fastSimpleUUID();
-        File file1 = new File("E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\file", uuid + StrUtil.DOT + type);
+        File file1 = new File("/www/wwwroot/file", uuid + StrUtil.DOT + type);
         file.transferTo(file1);
-        String url = "http://localhost:8055/comp/" + uuid + StrUtil.DOT + type;
+        String url = "http://47.107.229.21:8055/comp/" + uuid + StrUtil.DOT + type;
         iSysFileService.save(new SysFile(num, filename,url));
         return map;
     }
@@ -108,7 +108,7 @@ public class SysCompetitionController {
     @GetMapping("{fileuuid}")
     public void download(@PathVariable String fileuuid, HttpServletResponse response) throws IOException {
         // 根据文件的唯一标识码获取文件
-        File file1 = new File("C:\\Users\\Admin\\Desktop\\cmsystem\\src\\main\\resources\\static\\file", fileuuid);
+        File file1 = new File("/www/wwwroot/file", fileuuid);
         QueryWrapper<SysFile> wrapper = new QueryWrapper<>();
         wrapper.like("file_url",fileuuid);
         SysFile one = iSysFileService.getOne(wrapper);

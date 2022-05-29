@@ -1,4 +1,5 @@
 package com.zhj.controller;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -29,7 +30,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author zhj
@@ -44,19 +45,19 @@ public class SysTeamController {
 
     // 添加队伍信息
     @PostMapping("addTeam")
-    public Map<String,Object> addTeam(@RequestBody SysTeam sysTeam, HttpServletRequest request){
+    public Map<String, Object> addTeam(@RequestBody SysTeam sysTeam, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>();
         System.out.println(sysTeam);
         try {
             service.save(sysTeam);
-            request.getServletContext().setAttribute("teamid",sysTeam.getTeamId());
-            map.put("code",true);
-            map.put("msg","报名成功！！");
-            map.put("id",sysTeam.getTeamId());
+            request.getServletContext().setAttribute("teamid", sysTeam.getTeamId());
+            map.put("code", true);
+            map.put("msg", "报名成功！！");
+            map.put("id", sysTeam.getTeamId());
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("code",false);
-            map.put("msg","报名失败！！");
+            map.put("code", false);
+            map.put("msg", "报名失败！！");
         }
         return map;
     }
@@ -70,13 +71,13 @@ public class SysTeamController {
         String type = FileUtil.extName(filename);
         // 定义一个文件唯一的标识码
         String uuid = IdUtil.fastSimpleUUID();
-        File file1 = new File("E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\file", uuid + StrUtil.DOT + type);
+        File file1 = new File("/www/wwwroot/file", uuid + StrUtil.DOT + type);
         file.transferTo(file1);
-        String url = "http://localhost:8055/team/" + uuid + StrUtil.DOT + type;
+        String url = "http://47.107.229.21:8055/team/" + uuid + StrUtil.DOT + type;
         UpdateWrapper<SysTeam> wrapper = new UpdateWrapper<>();
-        wrapper.eq("team_id",num);
-        wrapper.set("team_file",url);
-        wrapper.set("team_fname",filename);
+        wrapper.eq("team_id", num);
+        wrapper.set("team_file", url);
+        wrapper.set("team_fname", filename);
         service.update(wrapper);
     }
 
@@ -84,20 +85,20 @@ public class SysTeamController {
     @GetMapping("page")
     public Map<String, Object> findPage(@RequestParam Integer currentPage,
                                         @RequestParam Integer pageSize,
-                                        @RequestParam(required = false,defaultValue = "") Integer id,
-                                        @RequestParam(required = false,defaultValue = "") Integer teamId,
+                                        @RequestParam(required = false, defaultValue = "") Integer id,
+                                        @RequestParam(required = false, defaultValue = "") Integer teamId,
                                         HttpServletRequest request) {
         IPage<SysTeam> page = new Page<>(currentPage, pageSize);
         QueryWrapper<SysTeam> wrapper = new QueryWrapper<>();
-        if (id!=null){
-            wrapper.eq("team_compid",id);
+        if (id != null) {
+            wrapper.eq("team_compid", id);
         }
-        if (teamId!=null){
-            wrapper.eq("team_id",teamId);
+        if (teamId != null) {
+            wrapper.eq("team_id", teamId);
         }
         List<SysTeam> list = service.list(wrapper);
-        request.getServletContext().setAttribute("teamList",list);
-        IPage<SysTeam> iPage = service.page(page,wrapper);
+        request.getServletContext().setAttribute("teamList", list);
+        IPage<SysTeam> iPage = service.page(page, wrapper);
         HashMap<String, Object> map = new HashMap<>();
         map.put("data", iPage);
         return map;
@@ -107,7 +108,7 @@ public class SysTeamController {
     @GetMapping("{fileuuid}")
     public void download(@PathVariable String fileuuid, HttpServletResponse response) throws IOException {
         // 根据文件的唯一标识码获取文件
-        File file1 = new File("E:\\CodeRoom\\competition_managerSystem\\cmsystem\\src\\main\\resources\\static\\file", fileuuid);
+        File file1 = new File("/www/wwwroot/file", fileuuid);
         SysTeam one = service.getOne(new QueryWrapper<SysTeam>().like("team_file", fileuuid));
         // 设置输出流的格式
         ServletOutputStream os = response.getOutputStream();
@@ -135,7 +136,7 @@ public class SysTeamController {
     @GetMapping("export")
     public void export(HttpServletResponse response, HttpServletRequest request) throws IOException {
         // 查询出所有数据
-        List<SysTeam> list =(List<SysTeam>) request.getServletContext().getAttribute("teamList");
+        List<SysTeam> list = (List<SysTeam>) request.getServletContext().getAttribute("teamList");
         // 在内存中操作，写到浏览器
         ExcelWriter writer = ExcelUtil.getWriter(true);
         //// 可以自定义表头的别名
@@ -154,7 +155,7 @@ public class SysTeamController {
 
     // 设置分数
     @PostMapping("setGrade")
-    public void setGrade(@RequestBody SysTeam sysTeam){
+    public void setGrade(@RequestBody SysTeam sysTeam) {
         boolean b = service.updateById(sysTeam);
     }
 
@@ -165,44 +166,43 @@ public class SysTeamController {
                          @RequestParam Integer secondPrice,
                          @RequestParam Integer thirdPrice,
                          @RequestParam Integer excellentPrice,
-                         HttpServletRequest request){
+                         HttpServletRequest request) {
         ArrayList<SysTeam> list = new ArrayList<>();
         List<SysTeam> teams = service.getByTeamCompidOrderByTeamGradeDesc(compid, 0, firstPrice);
-        for (SysTeam s:teams
-             ) {
+        for (SysTeam s : teams
+        ) {
             s.setTeamPrice("一等奖");
             service.updateById(s);
             list.add(s);
         }
         List<SysTeam> teams1 = service.getByTeamCompidOrderByTeamGradeDesc(compid, firstPrice, secondPrice);
-        for (SysTeam s:teams1
+        for (SysTeam s : teams1
         ) {
             s.setTeamPrice("二等奖");
             service.updateById(s);
             list.add(s);
         }
         List<SysTeam> teams2 = service.getByTeamCompidOrderByTeamGradeDesc(compid, firstPrice + secondPrice, thirdPrice);
-        for (SysTeam s:teams2
+        for (SysTeam s : teams2
         ) {
             s.setTeamPrice("三等奖");
             service.updateById(s);
             list.add(s);
         }
         List<SysTeam> teams3 = service.getByTeamCompidOrderByTeamGradeDesc(compid, firstPrice + secondPrice + thirdPrice, excellentPrice);
-        for (SysTeam s:teams3
+        for (SysTeam s : teams3
         ) {
             s.setTeamPrice("优秀奖");
             service.updateById(s);
             list.add(s);
         }
-        List<SysTeam> teams4 = service.list(new QueryWrapper<SysTeam>().eq("team_compid", compid));
-        for (SysTeam s:teams4
-             ) {
-            if (s.getTeamPrice()==null){
-                s.setTeamPrice("未得奖");
-                service.updateById(s);
-            }
+        int l = (int) service.count();
+        List<SysTeam> teams4 = service.getByTeamCompidOrderByTeamGradeDesc(compid, firstPrice + secondPrice + thirdPrice + excellentPrice, l);
+        for (SysTeam s : teams4
+        ) {
+            s.setTeamPrice("未得奖");
+            service.updateById(s);
         }
-        request.getServletContext().setAttribute("price",list);
+        request.getServletContext().setAttribute("price", list);
     }
 }

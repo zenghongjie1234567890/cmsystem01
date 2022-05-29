@@ -114,9 +114,9 @@ public class SysPriceController {
         String jname=file.getOriginalFilename().substring(0,file.getOriginalFilename().lastIndexOf("."));
         // 定义一个文件唯一的标识码
         String uuid = IdUtil.fastSimpleUUID();
-        File file1 = new File("C:\\Users\\Admin\\Desktop\\cmsystem\\src\\main\\resources\\static\\file", uuid + StrUtil.DOT + type);
+        File file1 = new File("/www/wwwroot/file", uuid + StrUtil.DOT + type);
         file.transferTo(file1);
-        String url = "http://localhost:8055/price/" + uuid + StrUtil.DOT + type;
+        String url = "http://47.107.229.21:8055/price/" + uuid + StrUtil.DOT + type;
         UpdateWrapper<SysPrice> wrapper = new UpdateWrapper<>();
         wrapper.eq("compid",num);
         wrapper.set("fileUrl",url);
@@ -128,7 +128,7 @@ public class SysPriceController {
     @GetMapping("{fileuuid}")
     public void download(@PathVariable String fileuuid, HttpServletResponse response) throws IOException {
         // 根据文件的唯一标识码获取文件
-        File file1 = new File("C:\\Users\\Admin\\Desktop\\cmsystem\\src\\main\\resources\\static\\file", fileuuid);
+        File file1 = new File("/www/wwwroot/file", fileuuid);
         SysPrice one = service.getOne(new QueryWrapper<SysPrice>().like("fileUrl", fileuuid));
         // 设置输出流的格式
         ServletOutputStream os = response.getOutputStream();
@@ -170,7 +170,7 @@ public class SysPriceController {
         SysPrice id = service.getById(compid);
         map.put("file",id);
         List<copy> list = new ArrayList<>();
-        List<System> list1 = service.getPrice(compid);
+        List<SysTeam> list1 = service.getPrice(compid);
         map.put("price",list1);
         return map;
     }

@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("sys_price")
-public class SysPrice  {
+public class SysPrice  implements Serializable{
 
     /**
      * 比赛ID
